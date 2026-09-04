@@ -17,6 +17,7 @@
   "build": {
     "appId": "com.ahmed.reactionstudio",
     "productName": "Ahmed Reaction Studio",
+    "electronVersion": "33.2.1",
     "directories": {
       "output": "dist_electron"
     },

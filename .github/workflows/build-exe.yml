@@ -27,14 +27,15 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
-      - name: Set up Node.js 20
+      - name: Set up Node.js 22
         uses: actions/setup-node@v4
         with:
-          node-version: 20
-          cache: 'npm'
+          node-version: 22
 
       - name: Install dependencies
-        run: npm install
+        run: |
+          npm install
+          npm install --save-dev electron@^33.2.1 electron-builder@^25.1.8
 
       - name: Build Web Application (Vite)
         run: npm run build
@@ -42,7 +43,7 @@ jobs:
       - name: Compile and Package Windows .EXE
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npx --yes electron-builder --win --x64 -c.win.target=nsis,portable
+        run: npx electron-builder --win --x64 -c.win.target=nsis,portable
 
       - name: Verify generated Windows binaries
         shell: pwsh

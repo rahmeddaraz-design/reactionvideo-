@@ -10,7 +10,11 @@ import {
   ExternalLink, 
   ShieldCheck, 
   Wifi, 
-  Layers 
+  Layers,
+  Package,
+  PlayCircle,
+  FolderDown,
+  Sparkles
 } from 'lucide-react';
 
 interface DeploymentModalProps {
@@ -19,7 +23,7 @@ interface DeploymentModalProps {
 }
 
 export const DeploymentModal: React.FC<DeploymentModalProps> = ({ isOpen, onClose }) => {
-  const [activeTab, setActiveTab] = useState<'windows' | 'termux' | 'lan'>('termux');
+  const [activeTab, setActiveTab] = useState<'github-exe' | 'windows' | 'termux' | 'lan'>('github-exe');
   const [copiedScript, setCopiedScript] = useState<string | null>(null);
 
   if (!isOpen) return null;
@@ -134,11 +138,23 @@ npm run dev -- --host 0.0.0.0 --port 3000
         </div>
 
         {/* Tab Selection */}
-        <div className="flex items-center border-b border-slate-800 bg-slate-950/60 px-4 text-xs font-semibold">
+        <div className="flex items-center border-b border-slate-800 bg-slate-950/60 px-4 text-xs font-semibold overflow-x-auto scrollbar-none">
+          <button
+            type="button"
+            onClick={() => setActiveTab('github-exe')}
+            className={`py-2.5 px-3 border-b-2 flex items-center gap-2 transition-colors shrink-0 ${
+              activeTab === 'github-exe'
+                ? 'border-emerald-500 text-emerald-400 bg-slate-900/40'
+                : 'border-transparent text-slate-400 hover:text-slate-200'
+            }`}
+          >
+            <Package className="w-3.5 h-3.5 text-emerald-400" />
+            <span>Windows .EXE (GitHub Actions)</span>
+          </button>
           <button
             type="button"
             onClick={() => setActiveTab('termux')}
-            className={`py-2.5 px-3 border-b-2 flex items-center gap-2 transition-colors ${
+            className={`py-2.5 px-3 border-b-2 flex items-center gap-2 transition-colors shrink-0 ${
               activeTab === 'termux'
                 ? 'border-sky-500 text-sky-400 bg-slate-900/40'
                 : 'border-transparent text-slate-400 hover:text-slate-200'
@@ -150,19 +166,19 @@ npm run dev -- --host 0.0.0.0 --port 3000
           <button
             type="button"
             onClick={() => setActiveTab('windows')}
-            className={`py-2.5 px-3 border-b-2 flex items-center gap-2 transition-colors ${
+            className={`py-2.5 px-3 border-b-2 flex items-center gap-2 transition-colors shrink-0 ${
               activeTab === 'windows'
                 ? 'border-sky-500 text-sky-400 bg-slate-900/40'
                 : 'border-transparent text-slate-400 hover:text-slate-200'
             }`}
           >
             <Monitor className="w-3.5 h-3.5" />
-            <span>Windows PC</span>
+            <span>Windows (Dev Server)</span>
           </button>
           <button
             type="button"
             onClick={() => setActiveTab('lan')}
-            className={`py-2.5 px-3 border-b-2 flex items-center gap-2 transition-colors ${
+            className={`py-2.5 px-3 border-b-2 flex items-center gap-2 transition-colors shrink-0 ${
               activeTab === 'lan'
                 ? 'border-sky-500 text-sky-400 bg-slate-900/40'
                 : 'border-transparent text-slate-400 hover:text-slate-200'
@@ -175,6 +191,109 @@ npm run dev -- --host 0.0.0.0 --port 3000
 
         {/* Tab Content */}
         <div className="p-4 flex-1 overflow-y-auto space-y-4 text-xs text-slate-300">
+          {activeTab === 'github-exe' && (
+            <div className="space-y-4">
+              <div className="bg-emerald-500/10 border border-emerald-500/20 p-3 rounded-lg text-emerald-300">
+                <div className="font-bold flex items-center gap-1.5 mb-1 text-emerald-400">
+                  <Package className="w-4 h-4" />
+                  <span>Automated GitHub Actions Windows .EXE Workflow Included</span>
+                </div>
+                <p className="text-[11px] leading-relaxed text-emerald-200/90">
+                  The project includes an automated GitHub Actions CI/CD workflow at <code className="font-mono text-white bg-emerald-950/80 px-1 py-0.5 rounded border border-emerald-500/30">.github/workflows/build-exe.yml</code>. Whenever you push to GitHub or trigger it manually, GitHub automatically compiles the web app and packages standalone Windows <strong>.exe</strong> binaries ready to download!
+                </p>
+              </div>
+
+              {/* Two formats generated */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                <div className="p-3 bg-slate-950 rounded-lg border border-slate-800">
+                  <div className="flex items-center gap-2 font-bold text-slate-200 mb-1">
+                    <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
+                    <span>1. NSIS Installer (.exe)</span>
+                  </div>
+                  <p className="text-[11px] text-slate-400 leading-normal">
+                    <code className="text-emerald-300 font-mono">Ahmed-Reaction-Studio-1.0.0-Windows-x64.exe</code>
+                    <br />
+                    Standard Windows installer that creates desktop &amp; Start menu shortcuts.
+                  </p>
+                </div>
+
+                <div className="p-3 bg-slate-950 rounded-lg border border-slate-800">
+                  <div className="flex items-center gap-2 font-bold text-slate-200 mb-1">
+                    <span className="w-2 h-2 rounded-full bg-sky-400"></span>
+                    <span>2. Portable Standalone (.exe)</span>
+                  </div>
+                  <p className="text-[11px] text-slate-400 leading-normal">
+                    <code className="text-sky-300 font-mono">Ahmed-Reaction-Studio-1.0.0-Windows-x64-portable.exe</code>
+                    <br />
+                    Single executable that runs instantly without installation from any USB drive or folder.
+                  </p>
+                </div>
+              </div>
+
+              {/* Step-by-Step Instructions */}
+              <div className="space-y-2">
+                <div className="font-bold text-slate-200 flex items-center gap-1.5">
+                  <PlayCircle className="w-4 h-4 text-emerald-400" />
+                  <span>How to Get Your .EXE on GitHub:</span>
+                </div>
+
+                <ol className="space-y-2 text-[11px] text-slate-300">
+                  <li className="flex items-start gap-2 bg-slate-950 p-2.5 rounded-lg border border-slate-800/80">
+                    <span className="flex items-center justify-center w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-400 font-mono font-bold text-xs shrink-0 mt-0.5">1</span>
+                    <div>
+                      <strong className="text-slate-200">Push / Export your project to GitHub</strong>
+                      <p className="text-slate-400 mt-0.5">Use the AI Studio settings to export to your GitHub repository or push via git.</p>
+                    </div>
+                  </li>
+
+                  <li className="flex items-start gap-2 bg-slate-950 p-2.5 rounded-lg border border-slate-800/80">
+                    <span className="flex items-center justify-center w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-400 font-mono font-bold text-xs shrink-0 mt-0.5">2</span>
+                    <div>
+                      <strong className="text-slate-200">Go to the "Actions" tab in your GitHub repository</strong>
+                      <p className="text-slate-400 mt-0.5">In the left sidebar, click on <span className="text-emerald-300 font-semibold">"Build Windows Executable (.exe)"</span>.</p>
+                    </div>
+                  </li>
+
+                  <li className="flex items-start gap-2 bg-slate-950 p-2.5 rounded-lg border border-slate-800/80">
+                    <span className="flex items-center justify-center w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-400 font-mono font-bold text-xs shrink-0 mt-0.5">3</span>
+                    <div>
+                      <strong className="text-slate-200">Click "Run workflow"</strong>
+                      <p className="text-slate-400 mt-0.5">Select the <code className="text-slate-200 bg-slate-800 px-1 py-0.2 rounded">main</code> branch and click the green <em>Run workflow</em> button (it also runs automatically on any push).</p>
+                    </div>
+                  </li>
+
+                  <li className="flex items-start gap-2 bg-slate-950 p-2.5 rounded-lg border border-slate-800/80">
+                    <span className="flex items-center justify-center w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-400 font-mono font-bold text-xs shrink-0 mt-0.5">4</span>
+                    <div>
+                      <strong className="text-slate-200">Download your packaged .EXE from Artifacts</strong>
+                      <p className="text-slate-400 mt-0.5">When the green checkmark appears (~2 minutes), click the run title and scroll down to <strong className="text-emerald-400">Artifacts</strong> to download <code className="text-slate-200">Ahmed-Reaction-Studio-Windows-EXE.zip</code>.</p>
+                    </div>
+                  </li>
+                </ol>
+              </div>
+
+              {/* Local PC build commands */}
+              <div>
+                <div className="flex items-center justify-between mb-1.5">
+                  <span className="font-bold text-slate-200">Or Build .EXE Locally on your PC:</span>
+                  <button
+                    type="button"
+                    onClick={() => handleCopy('npm run build:exe', 'local-exe')}
+                    className="flex items-center gap-1 text-[11px] text-emerald-400 hover:text-emerald-300"
+                  >
+                    {copiedScript === 'local-exe' ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+                    <span>{copiedScript === 'local-exe' ? 'Copied!' : 'Copy Command'}</span>
+                  </button>
+                </div>
+                <pre className="bg-slate-950 p-3 rounded-lg border border-slate-800 font-mono text-[11px] text-emerald-400 overflow-x-auto">
+{`npm install
+npm run build
+npx --yes electron-builder --win --x64`}
+                </pre>
+              </div>
+            </div>
+          )}
+
           {activeTab === 'termux' && (
             <div className="space-y-3">
               <div className="bg-sky-500/10 border border-sky-500/20 p-3 rounded-lg text-sky-300">

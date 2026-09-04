@@ -1,0 +1,6 @@
+{
+  "name": "Ahmed Reaction Studio",
+  "description": "Local-first reaction and commentary studio with multi-layer PiP compositing, camera capture, Web Audio mixer, timeline recording, and adaptive layouts for desktop and mobile.",
+  "requestFramePermissions": ["camera", "microphone"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

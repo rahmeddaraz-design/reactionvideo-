@@ -43,7 +43,7 @@ jobs:
       - name: Compile and Package Windows .EXE
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npx electron-builder --win --x64 -c.win.target=nsis,portable
+        run: npx electron-builder --win --x64
 
       - name: Verify generated Windows binaries
         shell: pwsh

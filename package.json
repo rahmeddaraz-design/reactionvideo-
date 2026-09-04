@@ -7,9 +7,8 @@
   "scripts": {
     "dev": "vite --port=3000 --host=0.0.0.0",
     "build": "vite build",
-    "build:exe": "vite build && electron-builder --win",
+    "build:exe": "vite build && electron-builder --win --x64",
     "package:exe": "electron-builder --win --x64",
-    "package:portable": "electron-builder --win portable --x64",
     "preview": "vite preview",
     "clean": "rm -rf dist dist_electron server.js",
     "lint": "tsc --noEmit"
@@ -29,14 +28,17 @@
       "target": [
         "nsis",
         "portable"
-      ],
-      "artifactName": "${productName}-${version}-Windows-${arch}.${ext}"
+      ]
     },
     "nsis": {
       "oneClick": false,
       "allowToChangeInstallationDirectory": true,
       "createDesktopShortcut": true,
-      "createStartMenuShortcut": true
+      "createStartMenuShortcut": true,
+      "artifactName": "${productName}-${version}-Setup.${ext}"
+    },
+    "portable": {
+      "artifactName": "${productName}-${version}-Portable.${ext}"
     }
   },
   "dependencies": {
